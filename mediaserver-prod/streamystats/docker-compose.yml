@@ -1,0 +1,52 @@
+name: streamystats
+
+services:
+  app:
+    restart: unless-stopped
+    container_name: streamystats
+    image: fredrikburmester/streamystats-nextjs:edge
+    ports:
+      - "3000:3000"
+    depends_on:
+      - phoenix
+    networks:
+      - proxy
+    environment:
+      API_URL: ${API_URL} 
+      TZ: "Asia/Calcutta"
+
+  phoenix:
+    image: fredrikburmester/streamystats-phoenix:edge
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: ${DB_URL}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    networks:
+      - proxy
+
+  db:
+    image: pgvector/pgvector:pg16
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: /var/lib/postgresql/data/pgdata
+    restart: always
+    networks:
+      - proxy
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: 
+
+networks:
+  proxy:
+    external: true
