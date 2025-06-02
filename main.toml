@@ -140,4 +140,3 @@ git_account = "aadhithbala"
 repo = "aadhithbala/HomeLab"
 run_directory = "mediaserver-prod/torrent-client"
 file_paths = ["docker-compose.yml"]
-=======
