@@ -12,15 +12,15 @@ services:
     networks:
       - proxy
     environment:
-      API_URL: ${API_URL} 
+      API_URL: "${API_URL}"
       TZ: "Asia/Calcutta"
 
   phoenix:
     image: fredrikburmester/streamystats-phoenix:edge
     restart: unless-stopped
     environment:
-      DATABASE_URL: ${DB_URL}
-      SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+      DATABASE_URL: "${DB_URL}"
+      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
       ulimits:
       nofile:
         soft: 65536
@@ -35,8 +35,8 @@ services:
   db:
     image: pgvector/pgvector:pg16
     environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       PGDATA: /var/lib/postgresql/data/pgdata
     restart: always
     networks:
