@@ -140,6 +140,14 @@ git_account = "aadhithbala"
 repo = "aadhithbala/HomeLab"
 run_directory = "mediaserver-prod/streamystats"
 file_paths = ["docker-compose.yml"]
+environment = """
+SECRET_KEY_BASE = [[SECRET_KEY_BASE]]
+POSTGRES_USER = [[POSTGRES_USER]]
+POSTGRES_PASSWORD = [[POSTGRES_PASSWORD]]
+POSTGRES_DB = [[POSTGRES_DB]]
+DB_URL = [[DB_URL]]
+API_URL = [[API_URL]]
+"""
 
 ##
 
@@ -155,3 +163,15 @@ git_account = "aadhithbala"
 repo = "aadhithbala/HomeLab"
 run_directory = "mediaserver-prod/torrent-client"
 file_paths = ["docker-compose.yml"]
+
+##
+
+[[resource_sync]]
+name = "sync-to-git"
+tags = ["git-sync"]
+[resource_sync.config]
+repo = "aadhithbala/HomeLab"
+git_account = "aadhithbala"
+resource_path = ["main.toml"]
+managed = true
+match_tags = ["git-sync"]
