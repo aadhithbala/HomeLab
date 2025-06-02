@@ -81,6 +81,49 @@ file_paths = ["docker-compose.yml"]
 ##
 
 [[stack]]
+name = "komodo"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/komodo"
+file_paths = ["mongo.compose.yaml"]
+env_file_path = "compose.env"
+environment = """
+COMPOSE_KOMODO_IMAGE_TAG=latest
+COMPOSE_LOGGING_DRIVER=local # Enable log rotation with the local driver.
+KOMODO_DB_USERNAME=[[KOMODO_DB_USERNAME]]
+KOMODO_DB_PASSWORD=[[KOMODO_DB_PASSWORD]]
+KOMODO_PASSKEY=[[KOMODO_PASSKEY]]
+TZ=Asia/Calcutta
+KOMODO_HOST=https://komodo.mediaserver.gleeze.com
+KOMODO_TITLE=Komodo
+KOMODO_FIRST_SERVER=https://host.docker.internal:8120
+KOMODO_DISABLE_CONFIRM_DIALOG=true
+KOMODO_MONITORING_INTERVAL="15-sec"
+KOMODO_RESOURCE_POLL_INTERVAL="5-min"
+KOMODO_LOCAL_AUTH=true
+KOMODO_DISABLE_USER_REGISTRATION=false
+KOMODO_ENABLE_NEW_USERS=false
+KOMODO_DISABLE_NON_ADMIN_CREATE=false
+KOMODO_TRANSPARENT_MODE=false
+KOMODO_JWT_TTL="1-day"
+KOMODO_OIDC_ENABLED=false
+KOMODO_GITHUB_OAUTH_ENABLED=false
+KOMODO_GOOGLE_OAUTH_ENABLED=false
+KOMODO_AWS_ACCESS_KEY_ID= # Alt: KOMODO_AWS_ACCESS_KEY_ID_FILE
+KOMODO_AWS_SECRET_ACCESS_KEY= # Alt: KOMODO_AWS_SECRET_ACCESS_KEY_FILE
+PERIPHERY_ROOT_DIRECTORY=/etc/komodo
+PERIPHERY_PASSKEYS=[[KOMODO_PASSKEY]]
+PERIPHERY_DISABLE_TERMINALS=false
+PERIPHERY_SSL_ENABLED=true
+PERIPHERY_INCLUDE_DISK_MOUNTS=/etc/hostname
+"""
+
+##
+
+[[stack]]
 name = "mediaserver"
 tags = ["git-sync"]
 [stack.config]
