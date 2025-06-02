@@ -1,4 +1,4 @@
-name: Deploy infra changes via Komodo Resource Sync
+name: Deploy All Stacks via Docker Compose
 
 on:
   push:
@@ -10,14 +10,33 @@ jobs:
     runs-on: self-hosted
 
     steps:
-      - name: Pull latest Git commit
+      - name: Pull latest code
         run: |
           cd /home/headlessnick/HomeLab
           git pull origin main
 
-      - name: Sync Komodo project
-        run: komodo project sync --force --project /home/headlessnick/HomeLab/main.toml
+      - name: Deploy all Compose stacks
+        run: |
+          cd /home/headlessnick/HomeLab/mediaserver-prod
 
-      - name: Deploy all updated stacks
-        run: komodo project deploy --all --project /home/headlessnick/HomeLab/main.toml
+          # Loop over each subfolder that contains a docker-compose.yml
+          for STACK_DIR in */
+          do
+            if [ -f "$STACK_DIR/docker-compose.yml" ]; then
+              echo "⟳ Updating stack in $STACK_DIR"
+              cd "$STACK_DIR"
+
+              docker compose up -d
+
+              # Back to mediaserver-prod root for next iteration
+              cd ..
+            else
+              echo "⚠️  No docker-compose.yml in $STACK_DIR — skipping."
+            fi
+          done
+
+      - name: Confirm Running Containers
+        run: |
+          echo "🛠  List of all running containers (Name → Image → Status):"
+          docker ps --format "table {{.Names}}\t{{.Image}}\t{{.Status}}"
 
