@@ -212,6 +212,35 @@ file_paths = ["docker-compose.yml"]
 
 ##
 
+[[alerter]]
+name = "image alerts"
+tags = ["git-sync"]
+[alerter.config]
+enabled = true
+endpoint.type = "Discord"
+endpoint.params.url = "https://discord.com/api/webhooks/1375438458268680244/uIkJ20BbDhNXT1mi0nXSfaqYj8JcWAGcpLli9N89HIhZpK2MmRmAOfv1mu0eYllrPtvj"
+alert_types = [
+  "StackAutoUpdated",
+  "StackStateChange"
+]
+resources = [
+  { type = "Server", id = "6830529123740f2263bf8bf1" },
+  { type = "Stack", id = "683d7a8b02ac407d7b1a5542" },
+  { type = "Stack", id = "683d7a9202ac407d7b1a5544" },
+  { type = "Stack", id = "683d7a9a02ac407d7b1a5547" },
+  { type = "Stack", id = "683d7aa102ac407d7b1a5549" },
+  { type = "Stack", id = "683d7aa902ac407d7b1a554c" },
+  { type = "Stack", id = "683da1676b23db92288ae7cc" },
+  { type = "ResourceSync", id = "683d75108284e311df7aa74a" },
+  { type = "Stack", id = "683d7ac302ac407d7b1a5556" },
+  { type = "Stack", id = "683d902402ac407d7b1a5702" },
+  { type = "Stack", id = "683d7abc02ac407d7b1a5553" },
+  { type = "Stack", id = "683d7ab402ac407d7b1a5551" },
+  { type = "Stack", id = "683d7aae02ac407d7b1a554e" }
+]
+
+##
+
 [[resource_sync]]
 name = "sync-to-git"
 tags = ["git-sync"]
