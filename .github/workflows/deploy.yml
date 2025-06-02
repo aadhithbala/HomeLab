@@ -12,7 +12,7 @@ jobs:
     steps:
       - name: Pull latest Git commit
         run: |
-          cd /home/headlessnick/homelab-stack
+          cd /home/headlessnick/HomeLab
           git pull origin main
 
       - name: Sync Komodo project
