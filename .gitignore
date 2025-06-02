@@ -1,0 +1,7 @@
+.env
+*.bak
+*.log
+actions-runner/
+__pycache__/
+*.swp
+
