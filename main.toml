@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 [[server]]
 name = "mediaserver-prod"
 tags = ["git-sync"]
@@ -142,5 +141,3 @@ repo = "aadhithbala/HomeLab"
 run_directory = "mediaserver-prod/torrent-client"
 file_paths = ["docker-compose.yml"]
 =======
-## Add resources to get started
->>>>>>> 6bb00282674fa1f77feaf9087361f63db911d3b7
