@@ -15,6 +15,9 @@ jobs:
           cd /home/headlessnick/HomeLab
           git pull origin main
 
+      - name: Export BESZEL_PUBLIC_KEY
+        run: echo "BESZEL_PUBLIC_KEY=${{ secrets.BESZEL_PUBLIC_KEY }}" >> $GITHUB_ENV
+
       - name: Deploy all Compose stacks
         run: |
           cd /home/headlessnick/HomeLab/mediaserver-prod

@@ -22,7 +22,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
       PORT: 45876
-      KEY: "${BESZEL_PUBLIC_KEY}"
+      KEY: "${BESZEL_PUBLIC_KEY}}"
 
 # service uptime monitoring
   uptime-kuma:
