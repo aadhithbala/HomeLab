@@ -1,0 +1,29 @@
+name: backups
+
+services:
+  backrest:
+    image: garethgeorge/backrest:latest
+    container_name: backrest
+    hostname: backrest
+    networks:
+      - proxy
+    volumes:
+      - /docker/appdata/backrest/data:/data
+      - /docker/appdata/backrest/config:/config
+      - /docker/appdata/backrest/cache:/cache
+      - /docker/appdata/backrest/tmp:/tmp
+      - /docker/appdata:/userdata
+      - /docker/appdata/backrest/rclone:/root/.config/rclone
+    environment:
+      - BACKREST_DATA=/data
+      - BACKREST_CONFIG=/config/config.json
+      - XDG_CACHE_HOME=/cache
+      - TMPDIR=/tmp
+      - TZ=Asia/Kolkata
+    ports:
+      - "9898:9898"
+    restart: unless-stopped
+
+networks:
+  proxy:
+    external: true

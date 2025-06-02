@@ -1,0 +1,18 @@
+name: dashboard
+
+services:
+  glance:
+    container_name: glance
+    image: glanceapp/glance
+    volumes:
+      - /docker/appdata/glance/config:/app/config
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/glance/assets:/app/assets
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+   proxy:
+      external: true

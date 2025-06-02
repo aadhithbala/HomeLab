@@ -1,0 +1,142 @@
+[[server]]
+name = "mediaserver-prod"
+tags = ["git-sync"]
+[server.config]
+address = "https://host.docker.internal:8120"
+enabled = true
+
+##
+
+[[stack]]
+name = "adguard-dns"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/dns"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "arr-stack"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/arr-stack"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "backups"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/backups"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "dashboard"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/dashboard"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "home-assistant"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/home-assistant"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "mediaserver"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/mediaserver"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "monitoring"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/monitoring"
+file_paths = ["docker-compose.yml"]
+environment = """
+BESZEL_PUBLIC_KEY=[[BESZEL_SSH_KEY]]
+"""
+
+##
+
+[[stack]]
+name = "reverse-proxy"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/reverse-proxy"
+file_paths = ["docker-compose.yml"]
+
+##
+
+[[stack]]
+name = "torrent-client"
+tags = ["git-sync"]
+[stack.config]
+server = "mediaserver-prod"
+poll_for_updates = true
+auto_update = true
+auto_update_all_services = true
+git_account = "aadhithbala"
+repo = "aadhithbala/HomeLab"
+run_directory = "mediaserver-prod/torrent-client"
+file_paths = ["docker-compose.yml"]

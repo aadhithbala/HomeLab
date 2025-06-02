@@ -1,0 +1,24 @@
+name: adguard-dns
+
+services:
+  adguardhome:
+    container_name: adguard
+    restart: unless-stopped
+    image: adguard/adguardhome
+    environment:
+      - TZ=Asia/Calcutta
+    ports:
+      - "8081:80"    # Web UI HTTP
+      - "8443:443"   # Web UI HTTPS
+      - 53:53/tcp # plain dns over tcp
+      - 53:53/udp # plain dns over udp
+
+    volumes:
+      - /docker/appdata/adguard/conf:/opt/adguardhome/conf # app configuration
+      - /docker/appdata/adguard/work:/opt/adguardhome/work # app working directory
+    networks:
+      - proxy
+
+networks:
+   proxy:
+     external: true

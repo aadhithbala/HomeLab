@@ -1,0 +1,132 @@
+name: arr-stack
+services:
+  #Movie Manager
+  radarr:
+    container_name: radarr
+    image: lscr.io/linuxserver/radarr:latest
+    restart: unless-stopped
+    logging:
+      driver: json-file
+    ports:
+      - 7878:7878
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/radarr:/config
+      - /home/headlessnick/data/:/data
+    networks:
+      - proxy
+
+  #Shows Manager
+  sonarr:
+    container_name: sonarr
+    image: lscr.io/linuxserver/sonarr:latest
+    restart: unless-stopped
+    ports:
+      - 8989:8989
+    logging:
+      driver: json-file
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/sonarr:/config
+      - /home/headlessnick/data/:/data
+    networks:
+      - proxy
+
+  #AudioBooks Manager
+  readarr:
+    image: lscr.io/linuxserver/readarr:develop
+    container_name: readarr
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/readarr/:/config
+      - /home/headlessnick/data/:/data
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  #Subtitles
+  bazarr:
+    container_name: bazarr
+    restart: unless-stopped
+    image: lscr.io/linuxserver/bazarr:latest
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/bazarr/:/config
+      - /home/headlessnick/data/:/data
+    networks:
+      - proxy
+
+  #Torrent Indexer
+  prowlarr:
+    container_name: prowlarr
+    image: ghcr.io/hotio/prowlarr
+
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/prowlarr/config:/config
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  jackett:
+    image: lscr.io/linuxserver/jackett:latest
+    container_name: jackett
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Asia/Calcutta
+    ports:
+      - 9117:9117
+    volumes:
+      - /docker/appdata/jackett/data:/config
+      - /docker/appdata/jackett/blackhole:/downloads
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  #Cloudflare Captcha Solver
+  flaresolverr:
+    # DockerHub mirror flaresolverr/flaresolverr:latest
+    image: ghcr.io/flaresolverr/flaresolverr:latest
+    container_name: flaresolverr
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-info}
+      - LOG_HTML=${LOG_HTML:-false}
+      - CAPTCHA_SOLVER=${CAPTCHA_SOLVER:-none}
+      - TZ=Asia/Calcutta
+    restart: unless-stopped
+    networks:
+      - proxy
+
+  #Autobrr
+  autobrr:
+    container_name: autobrr
+    image: ghcr.io/autobrr/autobrr:latest
+    restart: unless-stopped
+    environment:
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/autobrr/config:/config
+    networks:
+      - proxy
+
+networks:
+  proxy:
+    external: true
+

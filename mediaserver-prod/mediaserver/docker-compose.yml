@@ -1,0 +1,58 @@
+name: mediaserver
+
+services:
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    group_add:
+        - "106"
+    environment:
+        - PUID=1000
+        - PGID=1000
+        - TZ=Asia/Calcutta
+        - JELLYFIN_PublishedServerUrl=https://jellyfin.mediaserver.gleeze.com
+    ports:
+        - 8096:8096
+        - 7359:7359/udp #optional
+        - 1900:1900/udp #optional
+    devices:
+        - /dev/dri/renderD128:/dev/dri/renderD128
+    volumes:
+        - /docker/appdata/jellyfin/config:/config
+        - /home/headlessnick/data/media/tv:/data/tvshows
+        - /home/headlessnick/data/media/movies:/data/movies
+        - /home/headlessnick/data/media/audiobooks:/data/audiobooks
+    networks:
+        - proxy 
+    restart: unless-stopped
+
+  jellyseerr:
+    image: fallenbagel/jellyseerr:latest
+    container_name: jellyseerr
+    networks:
+      - proxy
+    environment:
+        - LOG_LEVEL=debug
+        - TZ=Asia/Calcutta
+    volumes:
+        - /docker/appdata/jellyseerr:/app/config
+    restart: on-failure:5
+
+# AudioBooks Manager
+  
+  audiobookshelf:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    volumes:
+      - /home/headlessnick/data/media/audiobooks:/audiobooks
+      - /docker/appdata/audiobookshelf/config:/config
+      - /docker/appdata/audiobookshelf/metadata:/metadata
+    environment:
+      - TZ=Asia/Calcutta
+    restart: unless-stopped
+    networks:
+      - proxy
+
+networks:
+   proxy:
+      external: true

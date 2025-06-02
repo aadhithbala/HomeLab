@@ -1,0 +1,29 @@
+name: torrent-client
+
+services:
+  qbittorrent:
+    restart: unless-stopped
+    container_name: qbittorrent
+    ports:
+      - '8080:8080'
+    image: ghcr.io/hotio/qbittorrent
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - UMASK=002
+      - TZ=Asia/Calcutta
+    volumes:
+      - /docker/appdata/qbittorrent:/config
+      - /home/headlessnick/data/:/data/
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1
+      - net.ipv6.conf.all.disable_ipv6=0
+    networks:
+      - proxy
+
+
+networks:
+   proxy:
+     external: true
