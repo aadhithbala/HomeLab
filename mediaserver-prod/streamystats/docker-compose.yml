@@ -21,7 +21,7 @@ services:
     environment:
       DATABASE_URL: "${DB_URL}"
       SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
-      ulimits:
+    ulimits:
       nofile:
         soft: 65536
         hard: 65536
