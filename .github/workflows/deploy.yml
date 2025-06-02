@@ -1,0 +1,23 @@
+name: Deploy infra changes via Komodo Resource Sync
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+
+    steps:
+      - name: Pull latest Git commit
+        run: |
+          cd /home/headlessnick/homelab-stack
+          git pull origin main
+
+      - name: Sync Komodo project
+        run: komodo project sync --force --project /home/headlessnick/HomeLab/main.toml
+
+      - name: Deploy all updated stacks
+        run: komodo project deploy --all --project /home/headlessnick/HomeLab/main.toml
+
