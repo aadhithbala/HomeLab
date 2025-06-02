@@ -1,0 +1,27 @@
+name: vpn
+
+services:
+  protonwire:
+    container_name: protonwire
+    image: ghcr.io/tprasadtp/protonwire:latest
+    init: true
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      PROTONVPN_SERVER: 149.88.103.33  # Replace with your desired server
+      DEBUG: "1"
+      KILL_SWITCH: "0"
+    # NET_ADMIN capability is mandatory!
+    cap_add:
+      - NET_ADMIN
+    sysctls:
+      net.ipv4.conf.all.rp_filter: 2
+      net.ipv6.conf.all.disable_ipv6: 1
+    volumes:
+      - type: tmpfs
+        target: /tmp
+      - type: bind
+        source: /docker/appdata/protonvpn/private.key  # Path to your private key file
+        target: /etc/protonwire/private-key
+        read_only: true
+
