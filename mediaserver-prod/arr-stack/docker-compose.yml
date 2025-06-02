@@ -132,7 +132,9 @@ services:
     volumes:
       - /docker/appdata/profilarr/config:/config
     environment:
-      - TZ=Asia/Calcutta # Set your timezone
+      - TZ=Asia/Calcutta
+    networks:
+      - proxy
     restart: unless-stopped
 
 networks:
