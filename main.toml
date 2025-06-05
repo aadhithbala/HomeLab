@@ -1,5 +1,6 @@
 [[server]]
 name = "mediaserver-prod"
+description = "the one that lives under my desk."
 tags = ["git-sync"]
 [server.config]
 address = "https://host.docker.internal:8120"
