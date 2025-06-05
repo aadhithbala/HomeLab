@@ -4,7 +4,6 @@ services:
   homeassistant:
     container_name: homeassistant
     image: "ghcr.io/home-assistant/home-assistant:stable"
-    user: "1000:1000"
     volumes:
       - /docker/appdata/home-assistant/config:/config
       - /etc/localtime:/etc/localtime:ro
