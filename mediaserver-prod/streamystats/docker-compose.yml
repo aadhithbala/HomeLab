@@ -1,51 +1,107 @@
 name: streamystats
 
 services:
-  app:
-    restart: unless-stopped
-    container_name: streamystats
-    image: fredrikburmester/streamystats-nextjs:edge
+  # Database migration service - runs once to set up tables
+  migrate:
+    image: docker.io/fredrikburmester/streamystats-v2-migrate:${VERSION:-latest}
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@vectorchord:5432/${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+      - PGPASSWORD=${POSTGRES_PASSWORD}
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+    restart: "no"
+    networks:
+      - proxy
+
+  nextjs-app:
+    image: docker.io/fredrikburmester/streamystats-v2-nextjs:${VERSION:-latest}
     ports:
       - "3000:3000"
-    depends_on:
-      - phoenix
-    networks:
-      - proxy
     environment:
-      API_URL: "${API_URL}"
-      TZ: "Asia/Calcutta"
-
-  phoenix:
-    image: fredrikburmester/streamystats-phoenix:edge
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@vectorchord:5432/${POSTGRES_DB}
+      - JOB_SERVER_URL=http://job-server:3005
+      - HOSTNAME=0.0.0.0
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
     restart: unless-stopped
-    environment:
-      DATABASE_URL: "${DB_URL}"
-      SECRET_KEY_BASE: "${SECRET_KEY_BASE}"
-    ulimits:
-      nofile:
-        soft: 65536
-        hard: 65536
-    ports:
-      - "4000:4000"
-    depends_on:
-      - db
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3000/api/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - proxy
 
-  db:
-    image: pgvector/pgvector:pg16
+  job-server:
+    image: docker.io/fredrikburmester/streamystats-v2-job-server:${VERSION:-latest}
     environment:
-      POSTGRES_USER: "${POSTGRES_USER}"
-      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
-      PGDATA: /var/lib/postgresql/data/pgdata
-    restart: always
+      - NODE_ENV=production
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@vectorchord:5432/${POSTGRES_DB}
+      - PORT=3005
+    depends_on:
+      vectorchord:
+        condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "wget",
+          "--quiet",
+          "--tries=1",
+          "--spider",
+          "http://localhost:3005/health",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
     networks:
       - proxy
+
+  vectorchord:
+    image: tensorchord/vchord-postgres:pg17-v0.4.1
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - vectorchord_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    networks:
+      - proxy
 
 volumes:
-  pgdata: 
+  vectorchord_data:
 
 networks:
   proxy:
