@@ -126,16 +126,16 @@ services:
     networks:
       - proxy
 
-  profilarr:
-    image: santiagosayshey/profilarr:latest # or :beta
-    container_name: profilarr
-    volumes:
-      - /docker/appdata/profilarr/config:/config
-    environment:
-      - TZ=Asia/Calcutta
-    networks:
-      - proxy
-    restart: unless-stopped
+  # profilarr:
+  #   image: santiagosayshey/profilarr:beta
+  #   container_name: profilarr
+  #   volumes:
+  #     - /docker/appdata/profilarr/config:/config
+  #   environment:
+  #     - TZ=Asia/Calcutta
+  #   networks:
+  #     - proxy
+  #   restart: unless-stopped
 
 networks:
   proxy:
