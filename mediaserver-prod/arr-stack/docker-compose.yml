@@ -38,7 +38,7 @@ services:
     networks:
       - proxy
 
-  AudioBooks Manager
+  #AudioBooks Manager
   readarr:
     image: lscr.io/linuxserver/readarr:develop
     container_name: readarr
