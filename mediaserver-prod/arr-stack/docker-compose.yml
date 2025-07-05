@@ -40,7 +40,7 @@ services:
 
   #AudioBooks Manager
   readarr:
-    image: lscr.io/linuxserver/readarr:develop
+    image: ghcr.io/hotio/readarr
     container_name: readarr
     environment:
       - PUID=1000
