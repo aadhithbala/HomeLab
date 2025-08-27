@@ -132,7 +132,7 @@ services:
     volumes:
       - /docker/appdata/profilarr/config:/config
     environment:
-      - TZ=Asia/Calcutta
+      - TZ=Asia/Kolkata
     networks:
       - proxy
     restart: unless-stopped
