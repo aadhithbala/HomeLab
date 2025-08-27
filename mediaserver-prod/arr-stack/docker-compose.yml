@@ -127,7 +127,7 @@ services:
       - proxy
 
   profilarr:
-    image: santiagosayshey/profilarr:beta
+    image: santiagosayshey/profilarr:latest
     container_name: profilarr
     volumes:
       - /docker/appdata/profilarr/config:/config
