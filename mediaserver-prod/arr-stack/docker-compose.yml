@@ -120,7 +120,7 @@ services:
     image: ghcr.io/autobrr/autobrr:latest
     restart: unless-stopped
     environment:
-      - TZ=Asia/Calcutta
+      - TZ=UTC
     volumes:
       - /docker/appdata/autobrr/config:/config
     networks:
