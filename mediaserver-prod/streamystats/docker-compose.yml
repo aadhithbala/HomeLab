@@ -18,6 +18,7 @@ services:
   #     - proxy
 
   nextjs-app:
+    container_name: streamystats
     image: docker.io/fredrikburmester/streamystats-v2-nextjs:${VERSION:-latest}
     ports:
       - "3000:3000"
