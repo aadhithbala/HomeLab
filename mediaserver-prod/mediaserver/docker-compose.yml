@@ -2,7 +2,7 @@ name: mediaserver
 
 services:
   jellyfin:
-    image: jellyfin/jellyfin:latest
+    image: ghcr.io/jellyfin/jellyfin:latest
     container_name: jellyfin
     group_add:
         - "106"
