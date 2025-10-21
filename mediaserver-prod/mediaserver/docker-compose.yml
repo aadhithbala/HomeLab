@@ -26,18 +26,6 @@ services:
         - proxy 
     restart: unless-stopped
 
-  jellyseerr:
-    image: fallenbagel/jellyseerr:latest
-    container_name: jellyseerr
-    networks:
-      - proxy
-    environment:
-        - LOG_LEVEL=debug
-        - TZ=Asia/Calcutta
-    volumes:
-        - /docker/appdata/jellyseerr:/app/config
-    restart: on-failure:5
-
 # AudioBooks Manager
   
   audiobookshelf:
