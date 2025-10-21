@@ -24,6 +24,17 @@ services:
       PORT: 45876
       KEY: "${BESZEL_PUBLIC_KEY}"
 
+  peekaping:
+    image: 0xfurai/peekaping-bundle-sqlite:latest
+    container_name: peekaping
+    restart: always
+    environment:
+      - DB_NAME=/app/data/peekaping.db
+    volumes:
+      - /docker/appdata/peekaping/data/sqlite:/app/data
+    networks:
+      - proxy
+
 
 networks:
   proxy:
