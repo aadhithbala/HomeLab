@@ -32,6 +32,7 @@ services:
       - DB_NAME=/app/data/peekaping.db
     volumes:
       - /docker/appdata/peekaping/data/sqlite:/app/data
+      - /var/run/docker.sock:/var/run/docker.sock:ro
     networks:
       - proxy
 
