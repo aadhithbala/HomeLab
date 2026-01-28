@@ -1,28 +1,18 @@
 name: backups
 
 services:
-  backrest:
-    image: garethgeorge/backrest:latest
-    container_name: backrest
-    hostname: backrest
-    networks:
-      - proxy
-    volumes:
-      - /docker/appdata/backrest/data:/data
-      - /docker/appdata/backrest/config:/config
-      - /docker/appdata/backrest/cache:/cache
-      - /docker/appdata/backrest/tmp:/tmp
-      - /docker/appdata:/userdata
-      - /docker/appdata/backrest/rclone:/root/.config/rclone
-    environment:
-      - BACKREST_DATA=/data
-      - BACKREST_CONFIG=/config/config.json
-      - XDG_CACHE_HOME=/cache
-      - TMPDIR=/tmp
-      - TZ=Asia/Kolkata
-    ports:
-      - "9898:9898"
+  zerobyte:
+    image: ghcr.io/nicotsx/zerobyte:v0.24
+    container_name: zerobyte
     restart: unless-stopped
+    environment:
+      - TZ=Asia/Calcutta # Set your timezone here
+      - BASE_URL=https://zerobyte.mediaserver.gleeze.com 
+      - APP_SECRET=38d283d379815d17b11389ac5f318016f7e28ce2d6057ac04094a6f55d3ea23d
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /docker/appdata/zerobyte:/var/lib/zerobyte
+      - /docker/appdata:/mydata
 
 networks:
   proxy:
