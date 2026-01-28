@@ -37,21 +37,6 @@ file_paths = ["docker-compose.yml"]
 ##
 
 [[stack]]
-name = "backups"
-tags = ["git-sync"]
-[stack.config]
-server = "mediaserver-prod"
-poll_for_updates = true
-auto_update = true
-auto_update_all_services = true
-git_account = "aadhithbala"
-repo = "aadhithbala/HomeLab"
-run_directory = "mediaserver-prod/backups"
-file_paths = ["docker-compose.yml"]
-
-##
-
-[[stack]]
 name = "dashboard"
 tags = ["git-sync"]
 [stack.config]
