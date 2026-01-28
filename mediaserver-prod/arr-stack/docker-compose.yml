@@ -38,20 +38,6 @@ services:
     networks:
       - proxy
 
-  #AudioBooks Manager
-  readarr:
-    image: ghcr.io/hotio/readarr
-    container_name: readarr
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=Asia/Calcutta
-    volumes:
-      - /docker/appdata/readarr/:/config
-      - /home/headlessnick/data/:/data
-    restart: unless-stopped
-    networks:
-      - proxy
 
   #Subtitles
   bazarr:
