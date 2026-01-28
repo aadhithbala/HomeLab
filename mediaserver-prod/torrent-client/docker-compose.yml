@@ -24,7 +24,7 @@ services:
       - proxy
 
   qbitwebui:
-    image: ghcr.io/Maciejonos/qbitwebui:latest
+    image: ghcr.io/maciejonos/qbitwebui:latest
     container_name: qbitwebui
     volumes:
       - /docker/appdata/qbitwebui:/data
