@@ -176,29 +176,6 @@ file_paths = ["docker-compose.yml"]
 ##
 
 [[stack]]
-name = "streamystats"
-tags = ["git-sync"]
-[stack.config]
-server = "mediaserver-prod"
-poll_for_updates = true
-auto_update = true
-auto_update_all_services = true
-git_account = "aadhithbala"
-repo = "aadhithbala/HomeLab"
-run_directory = "mediaserver-prod/streamystats"
-file_paths = ["docker-compose.yml"]
-environment = """
-SECRET_KEY_BASE = [[SECRET_KEY_BASE]]
-POSTGRES_USER = [[POSTGRES_USER]]
-POSTGRES_PASSWORD = [[POSTGRES_PASSWORD]]
-POSTGRES_DB = [[POSTGRES_DB]]
-DB_URL = [[DB_URL]]
-API_URL = [[API_URL]]
-"""
-
-##
-
-[[stack]]
 name = "torrent-client"
 tags = ["git-sync"]
 [stack.config]
