@@ -23,6 +23,18 @@ services:
     networks:
       - proxy
 
+  qbitwebui:
+    image: ghcr.io/Maciejonos/qbitwebui:latest
+    container_name: qbitwebui
+    volumes:
+      - /docker/appdata/qbitwebui:/data
+      - /home/headlessnick/data/torrents:/downloads:ro
+    environment:
+      - ENCRYPTION_KEY=38d283d379815d17b11389ac5f318016f7e28ce2d6057ac04094a6f55d3ea23d
+      - DOWNLOADS_PATH=/downloads
+    restart: unless-stopped
+    networks:
+      - proxy
 
 networks:
    proxy:
